@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using myservice.mvc.Config;
 
 namespace myservice.mvc
 {
@@ -22,7 +23,9 @@ namespace myservice.mvc
 
         public void ConfigureServices(IServiceCollection services)
         {
+            DependencyInjectionConfig.Configure(services);
             services.AddMvc();
+
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

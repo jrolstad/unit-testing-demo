@@ -1,20 +1,30 @@
 ﻿using System;
+using Microsoft.Extensions.DependencyInjection;
+using myservice.mvc.Config;
+
 namespace myservice.mvc.test.TestUtility
 {
     public class TestCompositionRoot
     {
-        private TestCompositionRoot()
+        IServiceProvider _serviceProvider;
+
+        TestCompositionRoot(IServiceCollection services)
         {
+            _serviceProvider = services.BuildServiceProvider();
         }
 
         public static TestCompositionRoot Create()
         {
-            return new TestCompositionRoot();
+            var serviceCollection = new ServiceCollection();
+
+            DependencyInjectionConfig.Configure(serviceCollection);
+
+            return new TestCompositionRoot(serviceCollection);
         }
 
-        public T Get<T>() where T: new()
+        public T Get<T>() where T : new()
         {
-            return new T();
+            return _serviceProvider.GetService<T>();
         }
     }
 }
