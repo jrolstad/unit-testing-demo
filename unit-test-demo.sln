@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myservice.mvc", "myservice.mvc\myservice.mvc.csproj", "{FC6BD9DD-675D-465B-BF87-157BE9711589}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myservice.mvc.test", "myservice.mvc.test\myservice.mvc.test.csproj", "{495240F9-5802-4B4D-8F34-351663094015}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC6BD9DD-675D-465B-BF87-157BE9711589}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC6BD9DD-675D-465B-BF87-157BE9711589}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC6BD9DD-675D-465B-BF87-157BE9711589}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC6BD9DD-675D-465B-BF87-157BE9711589}.Release|Any CPU.Build.0 = Release|Any CPU
+		{495240F9-5802-4B4D-8F34-351663094015}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{495240F9-5802-4B4D-8F34-351663094015}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{495240F9-5802-4B4D-8F34-351663094015}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{495240F9-5802-4B4D-8F34-351663094015}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
