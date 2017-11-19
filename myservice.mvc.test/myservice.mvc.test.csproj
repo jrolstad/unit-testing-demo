@@ -15,6 +15,7 @@
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="TestUtility\" />
+    <Folder Include="TestUtility\Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\myservice.mvc\myservice.mvc.csproj" />

@@ -11,9 +11,11 @@ namespace myservice.mvc.Controllers
     {
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public OkObjectResult Get()
         {
-            return new string[] { "value1", "value2" };
+            var data = new string[] { "value1", "value2" };
+
+            return Ok(data);
         }
 
         // GET api/values/5

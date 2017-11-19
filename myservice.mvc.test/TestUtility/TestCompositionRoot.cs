@@ -12,9 +12,9 @@ namespace myservice.mvc.test.TestUtility
             return new TestCompositionRoot();
         }
 
-        public T Get<T>()
+        public T Get<T>() where T: new()
         {
-            return default(T);
+            return new T();
         }
     }
 }
