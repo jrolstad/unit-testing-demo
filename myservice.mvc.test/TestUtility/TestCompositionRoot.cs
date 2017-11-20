@@ -1,7 +1,7 @@
 ﻿using System;
+using myservice.mvc.test.TestUtility.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using myservice.mvc.Config;
-using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.Extensions.Configuration;
 using Moq;
 
@@ -34,7 +34,18 @@ namespace myservice.mvc.test.TestUtility
                 _serviceProvider = Build();
             }
 
-            return _serviceProvider.GetService<T>();
+            var instance = _serviceProvider.GetService<T>();
+            ConfigureIfController(instance);
+
+            return instance;
+        }
+
+        private static void ConfigureIfController<T>(T instance)
+        {
+            if (instance is Controller)
+            {
+                (instance as Controller).WithHttpConfiguration();
+            }
         }
 
         private IServiceProvider Build()

@@ -27,5 +27,24 @@ namespace myservice.mvc.test.Controllers
             var result = response.CastValue<ICollection<string>>();
             Assert.Equal(new[]{"value1","value2"},result);
         }
+
+        [Fact]
+        public void Get_WithId_ReturnsSpecificValue()
+        {
+            // Arrange
+            var root = TestCompositionRoot.Create();
+
+            var controller = root.Get<ValuesController>();
+
+            // Act
+            var response = controller.Get(42);
+
+            // Assert
+            Assert.NotNull(response);
+            Assert.Equal((int)HttpStatusCode.OK, response.StatusCode);
+
+            var result = response.CastValue<string>();
+            Assert.Equal("value", result);
+        }
     }
 }
