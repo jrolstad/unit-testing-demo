@@ -18,7 +18,7 @@ namespace myservice.mvc.Controllers
         }
 
         [HttpGet]
-        public OkObjectResult Get()
+        public IActionResult Get()
         {
             var data = _repository.Get();
             var result = _mapper.Map(data).ToList();
@@ -27,12 +27,27 @@ namespace myservice.mvc.Controllers
         }
 
         [HttpGet("{id}")]
-        public OkObjectResult Get(int id)
+        public IActionResult Get(int id)
         {
             var data = _repository.Get(id);
+            if (data == null)
+                return NotFound();
+
             var result = _mapper.Map(data);
 
             return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var person = _repository.Get(id);
+            if (person == null)
+                return NotFound();
+
+            _repository.Delete(person);
+
+            return Ok();
         }
     }
 }

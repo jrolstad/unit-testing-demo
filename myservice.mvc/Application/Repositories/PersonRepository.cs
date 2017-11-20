@@ -29,5 +29,11 @@ namespace myservice.mvc.Application.Repositories
                 .Person
                 .Find(id);
         }
+
+        public void Delete(Person toDelete)
+        {
+            _context.Person.Remove(toDelete);
+            _context.SaveChanges();
+        }
     }
 }
