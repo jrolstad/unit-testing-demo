@@ -1,9 +1,13 @@
 ﻿using System;
+using myservice.entityframework;
+using myservice.mvc.test.TestUtility.EntityFramework;
 using myservice.mvc.test.TestUtility.Extensions;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Moq;
 
 namespace myservice.mvc.test.TestUtility
@@ -28,7 +32,7 @@ namespace myservice.mvc.test.TestUtility
             return new TestCompositionRoot(serviceCollection, context);
         }
 
-        public T Get<T>() where T : new()
+        public T Get<T>()
         {
             if (_serviceProvider == null)
             {
@@ -36,6 +40,10 @@ namespace myservice.mvc.test.TestUtility
             }
 
             var instance = _serviceProvider.GetService<T>();
+
+            if (instance == null)
+                throw new ArgumentOutOfRangeException($"Unable to resolve instance of type {typeof(T).FullName}");
+
             ConfigureIfController(instance);
 
             return instance;
@@ -64,8 +72,15 @@ namespace myservice.mvc.test.TestUtility
             var startupInstance = new Startup(hostingEnvironment) { Configuration = config };
             startupInstance.ConfigureServices(_serviceCollection);
 
+            RegisterInMemoryDbContext(_serviceCollection);
 
             return _serviceCollection.BuildServiceProvider();
+        }
+
+        private void RegisterInMemoryDbContext(IServiceCollection services)
+        {
+            var dbContext = new InMemoryDbContext(_testContext.InMemoryDatabaseIdentitifer);
+            services.Replace(new ServiceDescriptor(typeof(MyServiceContext), dbContext));
         }
 
         private Mock<T> RegisterMock<T>(IServiceCollection services) where T : class
