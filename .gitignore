@@ -38,3 +38,9 @@ Thumbs.db
 
 # dotCover
 *.dotCover
+
+# Visual Studio Code
+.vscode
+
+# Visual Studio 2017
+.vs/
