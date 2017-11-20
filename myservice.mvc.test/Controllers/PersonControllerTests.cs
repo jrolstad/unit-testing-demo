@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using myservice.mvc.Controllers;
@@ -125,6 +126,34 @@ namespace myservice.mvc.test.Controllers
             var peopleResponse = controller.Get();
             var peopleResult = peopleResponse.CastValue<ICollection<Application.Models.Person>>();
             Assert.Equal(2, peopleResult.Count);
+        }
+
+        [Fact]
+        public void Post_WithPersonData_CreatesNewPerson()
+        {
+            // Arrange
+            var root = TestCompositionRoot.Create();
+            root.WithPerson(firstName: "the-test", lastName: "writer");
+
+            var controller = root.Get<PersonController>();
+            var toPost = new Application.Models.Person
+            {
+                FirstName = "new-user",
+                LastName = "created",
+                BirthDate = DateTime.Today.AddDays(-1)
+            };
+
+            // Act
+            var response = controller.Post(toPost);
+
+            // Assert
+            Assert.NotNull(response);
+            Assert.IsType<OkObjectResult>(response);
+
+            var peopleResponse = controller.Get();
+            var result = peopleResponse.CastValue<ICollection<Application.Models.Person>>();
+
+            Assert.Equal(2,result.Count);
         }
     }
 }

@@ -38,6 +38,16 @@ namespace myservice.mvc.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        public IActionResult Post(Application.Models.Person toPost)
+        {
+            var dataModel = _mapper.Map(toPost);
+            var result = _repository.Create(dataModel);
+
+            return Ok(result);
+
+        }
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

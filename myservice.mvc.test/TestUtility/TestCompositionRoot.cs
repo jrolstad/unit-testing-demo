@@ -4,7 +4,6 @@ using myservice.mvc.test.TestUtility.EntityFramework;
 using myservice.mvc.test.TestUtility.Extensions;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;

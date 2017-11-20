@@ -24,5 +24,16 @@ namespace myservice.mvc.Application.Mappers
                 BirthDate = toMap.BirthDate
             };
         }
+
+        public entityframework.Person Map(Models.Person toMap)
+        {
+            return new entityframework.Person
+            {
+                Id = toMap.Id,
+                FirstName = toMap.FirstName,
+                LastName = toMap.LastName,
+                BirthDate = toMap.BirthDate
+            };
+        }
     }
 }

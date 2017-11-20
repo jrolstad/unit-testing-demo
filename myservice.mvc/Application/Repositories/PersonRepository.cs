@@ -30,6 +30,14 @@ namespace myservice.mvc.Application.Repositories
                 .Find(id);
         }
 
+        public entityframework.Person Create(entityframework.Person toCreate)
+        {
+            _context.Person.Add(toCreate);
+            _context.SaveChanges();
+
+            return toCreate;
+        }
+
         public void Delete(Person toDelete)
         {
             _context.Person.Remove(toDelete);
