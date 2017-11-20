@@ -1,30 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using myservice.mvc.ApplicationConfig;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using myservice.mvc.Config;
 
 namespace myservice.mvc
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+
+            if (env.IsDevelopment())
+            {
+                builder.AddJsonFile($"C:\\machineSettings.json", optional: true);
+            }
+
+            Configuration = builder.Build();
+            Environment = env;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; set; }
+        public IHostingEnvironment Environment { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            DependencyInjectionConfig.Configure(services);
-            services.AddMvc();
+            DependencyInjectionConfig.Register(services,Configuration);
+            MvcConfiguration.Register(services);
 
         }
 
@@ -35,7 +42,7 @@ namespace myservice.mvc
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
+            MvcConfiguration.Configure(app);
         }
     }
 }

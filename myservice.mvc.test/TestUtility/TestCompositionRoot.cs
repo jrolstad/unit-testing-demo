@@ -1,5 +1,6 @@
 ﻿using System;
 using myservice.mvc.test.TestUtility.Extensions;
+using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
@@ -54,7 +55,13 @@ namespace myservice.mvc.test.TestUtility
                 .AddInMemoryCollection(_testContext.ConfigurationValues)
                 .Build();
 
-            var startupInstance = new Startup(config);
+            var hostingEnvironment = new HostingEnvironment
+            {
+                EnvironmentName = "Testing",
+                ContentRootPath = Environment.CurrentDirectory
+            };
+
+            var startupInstance = new Startup(hostingEnvironment) { Configuration = config };
             startupInstance.ConfigureServices(_serviceCollection);
 
 
