@@ -1,5 +1,6 @@
 ﻿using System;
 using myservice.entityframework;
+using myservice.mvc.Application.Services;
 using myservice.mvc.test.TestUtility.EntityFramework;
 using myservice.mvc.test.TestUtility.Extensions;
 using Microsoft.AspNetCore.Hosting.Internal;
@@ -13,13 +14,13 @@ namespace myservice.mvc.test.TestUtility
 {
     public class TestCompositionRoot
     {
-        private readonly TestContext _testContext;
+        public readonly TestContext TestContext;
         private readonly IServiceCollection _serviceCollection;
         private IServiceProvider _serviceProvider = null;
 
         private TestCompositionRoot(IServiceCollection services, TestContext testContext)
         {
-            _testContext = testContext;
+            TestContext = testContext;
             _serviceCollection = services;
         }
 
@@ -59,7 +60,7 @@ namespace myservice.mvc.test.TestUtility
         private IServiceProvider Build()
         {
             var config = new ConfigurationBuilder()
-                .AddInMemoryCollection(_testContext.ConfigurationValues)
+                .AddInMemoryCollection(TestContext.ConfigurationValues)
                 .Build();
 
             var hostingEnvironment = new HostingEnvironment
@@ -72,13 +73,15 @@ namespace myservice.mvc.test.TestUtility
             startupInstance.ConfigureServices(_serviceCollection);
 
             RegisterInMemoryDbContext(_serviceCollection);
+            var identityService = RegisterMock<IIdentityService>(_serviceCollection);
+            identityService.Configure(TestContext);
 
             return _serviceCollection.BuildServiceProvider();
         }
 
         private void RegisterInMemoryDbContext(IServiceCollection services)
         {
-            var dbContext = new InMemoryDbContext(_testContext.InMemoryDatabaseIdentitifer);
+            var dbContext = new InMemoryDbContext(TestContext.InMemoryDatabaseIdentitifer);
             services.Replace(new ServiceDescriptor(typeof(MyServiceContext), dbContext));
         }
 

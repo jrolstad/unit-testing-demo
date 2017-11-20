@@ -10,6 +10,7 @@ namespace myservice.mvc.test.TestUtility.EntityFramework.Extensions
         public static entityframework.Person WithPerson(this TestCompositionRoot root, 
             string firstName = "my-first-name", 
             string lastName = "my-last-name", 
+            string alias = null,
             DateTime? birthDate = null)
         {
             var context = root.Get<MyServiceContext>();
@@ -18,6 +19,7 @@ namespace myservice.mvc.test.TestUtility.EntityFramework.Extensions
             {
                 FirstName = firstName,
                 LastName = lastName,
+                Alias = alias ?? $"{firstName.Substring(0,1)}{lastName}".ToLower(),
                 BirthDate = birthDate ?? DateTime.Now.AddYears(-25)
             };
 

@@ -48,7 +48,9 @@ namespace myservice.mvc.test.Controllers
             // Arrange
             var root = TestCompositionRoot.Create();
             root.WithPerson(firstName: "the-test", lastName: "writer");
-            var person2 = root.WithPerson(firstName: "the-test", lastName: "reviewer");
+            var person2 = root.WithPerson(firstName: "the-test", lastName: "reviewer",alias:"my-alias");
+
+            root.WithIdentity(alias: "my-alias", emailAddress: "address@mail.com");
 
             var controller = root.Get<PersonController>();
 
@@ -63,6 +65,7 @@ namespace myservice.mvc.test.Controllers
 
             Assert.Equal("the-test", result.FirstName);
             Assert.Equal("reviewer", result.LastName);
+            Assert.Equal("address@mail.com", result.EmailAddress);
             Assert.Equal("the-test reviewer", result.FullName);
         }
 

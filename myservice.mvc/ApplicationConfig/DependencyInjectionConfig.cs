@@ -1,6 +1,7 @@
 ﻿using myservice.entityframework;
 using myservice.mvc.Application.Mappers;
 using myservice.mvc.Application.Repositories;
+using myservice.mvc.Application.Services;
 using myservice.mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +19,7 @@ namespace myservice.mvc.ApplicationConfig
 
             services.AddTransient<PersonRepository>();
             services.AddTransient<PersonMapper>();
+            services.AddTransient<IIdentityService, IdentityService>();
 
             services.AddDbContext<MyServiceContext>(options =>
             {
